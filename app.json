@@ -4,13 +4,7 @@
     "slug": "VoiceDump",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
-    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.voicedump.app",
@@ -19,12 +13,7 @@
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#000000"
-      },
-      "permissions": [
-        "RECORD_AUDIO"
-      ]
+      "package": "com.voicedump.app"
     },
     "plugins": [
       "expo-av"
