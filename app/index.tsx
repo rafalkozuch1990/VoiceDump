@@ -23,11 +23,11 @@ export default function HomeScreen() {
         playsInSilentModeIOS: true,
       });
 
-      const { recording } = await Audio.Recording.createAsync(
+      const created = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
 
-      setRecording(recording);
+      setRecording(created.recording);
       setIsRecording(true);
     } catch (error) {
       Alert.alert('Błąd', 'Nie udało się rozpocząć nagrania.');
@@ -41,6 +41,8 @@ export default function HomeScreen() {
     await recording.stopAndUnloadAsync();
     await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
 
+    const uri = recording.getURI();
+
     const note: Note = {
       id: Date.now().toString(),
       title: 'Nowe nagranie',
@@ -49,6 +51,7 @@ export default function HomeScreen() {
         { id: '1', text: 'Odsłuchać nagranie', done: false },
       ],
       createdAt: new Date().toISOString(),
+      audioUri: uri || undefined,
     };
 
     const notes = await getNotes();
