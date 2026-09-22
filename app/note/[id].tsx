@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getNotes, saveNotes } from '../../lib/storage';
 import { Note } from '../../lib/types';
 
 export default function NoteDetailsScreen() {
   const { id } = useLocalSearchParams();
+  const router = useRouter();
   const [note, setNote] = useState<Note | null>(null);
 
   useEffect(() => {
@@ -30,6 +31,15 @@ export default function NoteDetailsScreen() {
     const notes = await getNotes();
     const next = notes.map((item) => (item.id === updated.id ? updated : item));
     await saveNotes(next);
+  }
+
+  async function deleteNote() {
+    if (!note) return;
+
+    const notes = await getNotes();
+    const next = notes.filter((item) => item.id !== note.id);
+    await saveNotes(next);
+    router.replace('/notes');
   }
 
   if (!note) {
@@ -59,6 +69,18 @@ export default function NoteDetailsScreen() {
           </Text>
         </Pressable>
       ))}
+
+      <Pressable
+        style={styles.deleteButton}
+        onPress={() =>
+          Alert.alert('Usunąć notatkę?', 'Tej operacji nie cofniesz.', [
+            { text: 'Anuluj', style: 'cancel' },
+            { text: 'Usuń', style: 'destructive', onPress: deleteNote },
+          ])
+        }
+      >
+        <Text style={styles.deleteText}>Usuń notatkę</Text>
+      </Pressable>
     </View>
   );
 }
@@ -111,6 +133,17 @@ const styles = StyleSheet.create({
   taskDone: {
     color: '#71717A',
     textDecorationLine: 'line-through',
+  },
+  deleteButton: {
+    marginTop: 40,
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: '#3F1D1D',
+  },
+  deleteText: {
+    color: '#FCA5A5',
+    textAlign: 'center',
+    fontWeight: '600',
   },
   empty: {
     color: '#71717A',
