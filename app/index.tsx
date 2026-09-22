@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      
+
       <Text style={styles.title}>VoiceDump</Text>
       <Text style={styles.subtitle}>Nagraj myśl. Zamień w działanie.</Text>
 
@@ -14,6 +15,10 @@ export default function HomeScreen() {
       </Pressable>
 
       <Text style={styles.hint}>Przytrzymaj, aby nagrać</Text>
+
+      <Link href="/notes" style={styles.link}>
+        Zobacz notatki
+      </Link>
     </View>
   );
 }
@@ -58,5 +63,10 @@ const styles = StyleSheet.create({
     marginTop: 24,
     fontSize: 14,
     color: '#71717A',
+  },
+  link: {
+    marginTop: 40,
+    color: '#FFFFFF',
+    fontSize: 16,
   },
 });
