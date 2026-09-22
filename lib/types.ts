@@ -10,4 +10,5 @@ export type Note = {
   summary: string;
   tasks: Task[];
   createdAt: string;
+  audioUri?: string;
 };
